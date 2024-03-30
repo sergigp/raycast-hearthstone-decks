@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Detail, List } from "@raycast/api";
+import { Action, ActionPanel, Icon, List } from "@raycast/api";
 import { usePromise } from "@raycast/utils";
 import { getD0nkeyBestDecks } from "./d0nkey";
 import { Deck } from "./types";
@@ -14,7 +14,7 @@ export default function Command() {
           // icon={getIcon(props.index + 1)}
           title={deck.title}
           subtitle={deck.className}
-          // accessories={getAccessories(props.item)}
+          accessories={[winrate(deck)]}
           actions={<Actions {...deck} />}
           detail={
             <List.Item.Detail markdown="![Illustration](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png)" />
@@ -35,13 +35,6 @@ function Actions({ title, code }: Deck) {
   );
 }
 
-// export function winrate(deck: Deck) {
-//   const accessories = new Array<List.Item.Accessory>();
-
-//   const points = getPoints(item);
-//   if (points) {
-//     accessories.push({ icon: Icon.ArrowUpCircle, text: points });
-//   }
-
-//   return accessories;
-// }
+export function winrate(deck: Deck) {
+  return { icon: Icon.LineChart, text: `${deck.winrate}%`, tooltip: "winrate"};
+}
