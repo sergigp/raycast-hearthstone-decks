@@ -1,5 +1,5 @@
 import { Image } from "@raycast/api";
-import { ClassName } from "./domain";
+import { ClassName, Deck } from "./domain";
 
 export const classIcon = (className: ClassName) => {
   return {
@@ -14,4 +14,9 @@ export const ellipsize = (str: string, maxLength: number): string => {
   } else {
     return str.substring(0, maxLength - 1) + "…";
   }
+};
+
+export type CacheEntry = {
+  timestamp: number;
+  decks: Deck[];
 };

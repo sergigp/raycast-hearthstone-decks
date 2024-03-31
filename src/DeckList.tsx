@@ -43,7 +43,7 @@ function DeckDetails({ title, slots }: Deck) {
   return <List.Item.Detail markdown={generateMarkdownList(title, slots)} />;
 }
 
-const generateMarkdownList = (title: String, cardSlots: CardSlot[]): string => {
+const generateMarkdownList = (title: string, cardSlots: CardSlot[]): string => {
   let markdown = `# ${title}\n\n`;
 
   cardSlots.forEach((slot) => {

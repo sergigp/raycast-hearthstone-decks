@@ -1,18 +1,63 @@
+import { Cache } from "@raycast/api";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { Card, CardSlot, ClassName, Deck, Rarity } from "./domain";
+import { CacheEntry } from "./utils";
 
+const CACHE_DURATION_IN_MS = 3600 * 1_000;
 const D0NKEY_BEST_DECKS_URL = "https://www.d0nkey.top/decks/?format=2";
+
+const cache = new Cache();
+
 const d0nkeyBestDecksPerClassUrl = (className: ClassName) => {
-  return `https://www.d0nkey.top/decks/?format=2&player_class=${className}`;
+  return `https://www.d0nkey.top/decks/?format=2&player_class=${className.toString()}`;
 };
 
 export const getD0nkeyBestDecks = async () => {
-  return fetchDecks(D0NKEY_BEST_DECKS_URL);
+  const cacheKey = "all_classes";
+
+  const cachedDecks = getFromCache(cacheKey);
+
+  if (cachedDecks) {
+    return Promise.resolve(cachedDecks);
+  }
+
+  const decks = await fetchDecks(D0NKEY_BEST_DECKS_URL);
+  saveToCache(cacheKey, decks);
+
+  return decks;
 };
 
 export const getD0nkeyBestDecksByClass = async (className: ClassName) => {
-  return fetchDecks(d0nkeyBestDecksPerClassUrl(className));
+  const cachedDecks = getFromCache(className.toString());
+
+  if (cachedDecks) {
+    return Promise.resolve(cachedDecks);
+  }
+
+  const decks = await fetchDecks(d0nkeyBestDecksPerClassUrl(className));
+  saveToCache(className.toString(), decks);
+
+  return decks;
+};
+
+const getFromCache = (cacheKey: string) => {
+  const cachedResponse = cache.get(cacheKey);
+  if (cachedResponse) {
+    const parsed: CacheEntry = JSON.parse(cachedResponse);
+
+    const elapsed = Date.now() - parsed.timestamp;
+
+    if (elapsed <= CACHE_DURATION_IN_MS) {
+      return parsed.decks;
+    }
+  }
+
+  return null;
+};
+
+const saveToCache = (cacheKey: string, decks: Deck[]) => {
+  cache.set(cacheKey, JSON.stringify({ timestamp: Date.now(), decks: decks }));
 };
 
 export const fetchDecks = async (url: string) => {
