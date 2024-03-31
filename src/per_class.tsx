@@ -1,5 +1,5 @@
 import { Action, ActionPanel, List } from "@raycast/api";
-import { ClassName } from "./types";
+import { ClassName } from "./domain";
 import { classIcon } from "./utils";
 import { DeckList } from "./decklist";
 

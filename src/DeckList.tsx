@@ -1,6 +1,6 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api";
-import { CardSlot, ClassName, Deck } from "./types";
-import { classIcon } from "./utils";
+import { CardSlot, ClassName, Deck } from "./domain";
+import { classIcon, ellipsize } from "./utils";
 import { getD0nkeyBestDecks, getD0nkeyBestDecksByClass } from "./d0nkey";
 import { usePromise } from "@raycast/utils";
 
@@ -19,7 +19,7 @@ export const DeckList: React.FC<DeckListProps> = ({ className }) => {
         <List.Item
           key={deck.code}
           icon={classIcon(deck.className)}
-          title={deck.title}
+          title={ellipsize(deck.title, 10)}
           accessories={[winrate(deck), dust(deck)]}
           actions={<Actions {...deck} />}
           detail={<DeckDetails {...deck} />}
@@ -39,12 +39,12 @@ function Actions({ title, code }: Deck) {
   );
 }
 
-function DeckDetails({ slots }: Deck) {
-  return <List.Item.Detail markdown={generateMarkdownList(slots)} />;
+function DeckDetails({ title, slots }: Deck) {
+  return <List.Item.Detail markdown={generateMarkdownList(title, slots)} />;
 }
 
-const generateMarkdownList = (cardSlots: CardSlot[]): string => {
-  let markdown = "";
+const generateMarkdownList = (title: String, cardSlots: CardSlot[]): string => {
+  let markdown = `# ${title}\n\n`;
 
   cardSlots.forEach((slot) => {
     markdown += `* ${slot.amount}x (${slot.card.mana})  ${slot.card.title}\n`;

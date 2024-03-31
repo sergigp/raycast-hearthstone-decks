@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { Card, CardSlot, ClassName, Deck, Rarity } from "./types";
+import { Card, CardSlot, ClassName, Deck, Rarity } from "./domain";
 
 const D0NKEY_BEST_DECKS_URL = "https://www.d0nkey.top/decks/?format=2";
 const d0nkeyBestDecksPerClassUrl = (className: ClassName) => {
@@ -23,7 +23,6 @@ export const fetchDecks = async (url: string) => {
 
   elements.each((i, el) => {
     const fullText = $(el).find("h2.deck-title").text().trim();
-    const title = fullText.split("\n")[0].replace("### ", "").trim();
     const className = $(el)
       .find(".decklist-info")
       .attr("class")
@@ -31,6 +30,7 @@ export const fetchDecks = async (url: string) => {
       .filter((cl) => cl !== "decklist-info")
       .join(" ") as ClassName;
 
+    const title = fullText.split("\n")[0].replace("### ", "").replace(new RegExp(className, "i"), "").trim();
     const code = $(el).find("button[data-clipboard-text]").attr("data-clipboard-text");
     const winrateText = $(el).find("span.basic-black-text").text();
     const dust = parseInt($(el).find("div.dust-bar-inner").text().trim());
