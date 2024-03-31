@@ -1,22 +1,23 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "hsdecks",
-  "title": "Hsdecks",
-  "description": "fetch best decks from d0nkey.top",
+  "title": "Hearthstone Decks",
+  "description": "search the best Hearthstone decks from d0nkey.top",
   "icon": "hearthstone-icon.png",
   "author": "sergigp",
+  "categories": ["Fun"],
   "license": "MIT",
   "commands": [
     {
-      "name": "best_decks",
-      "title": "Best Hearthstone Decks",
-      "description": "List of best best Hearthstone decks",
+      "name": "search_best_decks",
+      "title": "Search Best Hearthstone Decks",
+      "description": "Search the best Hearthstone decks",
       "mode": "view"
     },
     {
-      "name": "per_class",
-      "title": "Best Hearthstone Decks Per Class",
-      "description": "List of best Hearthstone decks per class",
+      "name": "search_class_decks",
+      "title": "Search Best Hearthstone Decks Per Class",
+      "description": "Search the best Hearthstone decks per class",
       "mode": "view"
     }
   ],
