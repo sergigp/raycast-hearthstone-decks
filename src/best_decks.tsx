@@ -1,7 +1,7 @@
 import { Action, ActionPanel, Icon, Image, List } from "@raycast/api";
 import { usePromise } from "@raycast/utils";
 import { getD0nkeyBestDecks } from "./d0nkey";
-import { Deck } from "./types";
+import { CardSlot, Deck } from "./types";
 
 export default function Command() {
   const { data: decks, isLoading } = usePromise(getD0nkeyBestDecks, [], {});
@@ -15,9 +15,7 @@ export default function Command() {
           title={deck.title}
           accessories={[winrate(deck), dust(deck)]}
           actions={<Actions {...deck} />}
-          detail={
-            <List.Item.Detail markdown="![Illustration](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png)" />
-          }
+          detail={<DeckDetails {...deck} />}
         />
       ))}
     </List>
@@ -33,6 +31,20 @@ function Actions({ title, code }: Deck) {
     </ActionPanel>
   );
 }
+
+function DeckDetails({ slots }: Deck) {
+  return <List.Item.Detail markdown={generateMarkdownList(slots)} />;
+}
+
+const generateMarkdownList = (cardSlots: CardSlot[]): string => {
+  let markdown = "";
+
+  cardSlots.forEach((slot) => {
+    markdown += `* ${slot.amount}x (${slot.card.mana})  ${slot.card.title}\n`;
+  });
+
+  return markdown;
+};
 
 const winrate = (deck: Deck) => {
   return { icon: Icon.LineChart, text: `${deck.winrate}%`, tooltip: "winrate" };
@@ -51,10 +63,6 @@ const formatNumberWithK = (number: number): string => {
 };
 
 const classIcon = (deck: Deck) => {
-  console.log({
-    source: `${deck.className}.png`,
-    mask: Image.Mask.Circle,
-  });
   return {
     source: `${deck.className}.png`,
     mask: Image.Mask.Circle,
