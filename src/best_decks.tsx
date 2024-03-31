@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Icon, List } from "@raycast/api";
+import { Action, ActionPanel, Icon, List, Image } from "@raycast/api";
 import { usePromise } from "@raycast/utils";
 import { getD0nkeyBestDecks } from "./d0nkey";
 import { Deck } from "./types";
@@ -11,9 +11,11 @@ export default function Command() {
       {decks?.map((deck) => (
         <List.Item
           key={deck.code}
-          // icon={getIcon(props.index + 1)}
+          icon={{
+            source: `${deck.className}.png`,
+            mask: Image.Mask.Circle,
+          }}
           title={deck.title}
-          subtitle={deck.className}
           accessories={[winrate(deck)]}
           actions={<Actions {...deck} />}
           detail={

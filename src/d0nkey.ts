@@ -14,10 +14,10 @@ export const getD0nkeyBestDecks = async () => {
     const fullText = $(el).find("h2.deck-title").text().trim();
     const title = fullText.split("\n")[0].replace("### ", "").trim();
     const className = $(el)
-      .find(".decklist-info") // Directly target the div with 'decklist-info' class
+      .find(".decklist-info")
       .attr("class")
       ?.split(" ")
-      .filter((cl) => cl !== "decklist-info") // Remove 'decklist-info' from the class list
+      .filter((cl) => cl !== "decklist-info")
       .join(" ");
 
     const code = $(el).find("button[data-clipboard-text]").attr("data-clipboard-text");
