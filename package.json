@@ -1,21 +1,21 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "hsdecks",
-  "title": "hsdecks",
-  "description": "",
-  "icon": "command-icon.png",
+  "title": "Hsdecks",
+  "description": "fetch best decks from d0nkey.top",
+  "icon": "hearthstone-icon.png",
   "author": "sergigp",
   "license": "MIT",
   "commands": [
     {
       "name": "best_decks",
-      "title": "Best Hearthstone decks",
+      "title": "Best Hearthstone Decks",
       "description": "List of best best Hearthstone decks",
       "mode": "view"
     },
     {
       "name": "per_class",
-      "title": "Best Hearthstone decks per class",
+      "title": "Best Hearthstone Decks Per Class",
       "description": "List of best Hearthstone decks per class",
       "mode": "view"
     }
@@ -34,7 +34,7 @@
     "@types/node": "^20.8.10",
     "@types/react": "18.2.27",
     "eslint": "^8.51.0",
-    "prettier": "^3.0.3",
+    "prettier": "^3.2.5",
     "typescript": "^5.2.2"
   },
   "scripts": {

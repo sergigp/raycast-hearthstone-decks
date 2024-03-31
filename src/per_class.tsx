@@ -1,7 +1,7 @@
 import { Action, ActionPanel, List } from "@raycast/api";
 import { ClassName } from "./domain";
 import { classIcon } from "./utils";
-import { DeckList } from "./decklist";
+import { DeckList } from "./DeckList";
 
 export default function Command() {
   const classes = Object.values(ClassName);
@@ -23,7 +23,7 @@ function Actions({ className }: { className: ClassName }) {
   return (
     <ActionPanel title={className}>
       <ActionPanel.Section>
-        <Action.Push title="Push Pong" target={<DeckList className={className}/>} />
+        <Action.Push title="Fetch Decks" target={<DeckList className={className} />} />
       </ActionPanel.Section>
     </ActionPanel>
   );

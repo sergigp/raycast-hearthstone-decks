@@ -1,5 +1,5 @@
-import { DeckList } from "./decklist";
+import { DeckList } from "./DeckList";
 
 export default function Command() {
-  return <DeckList/>;
+  return <DeckList />;
 }
