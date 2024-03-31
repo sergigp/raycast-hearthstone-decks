@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { Deck } from "./types";
+import { ClassName, Deck } from "./types";
 
 const D0NKEY_BEST_DECKS_URL = "https://www.d0nkey.top/decks/?format=2";
 
@@ -18,7 +18,7 @@ export const getD0nkeyBestDecks = async () => {
       .attr("class")
       ?.split(" ")
       .filter((cl) => cl !== "decklist-info")
-      .join(" ");
+      .join(" ") as ClassName;
 
     const code = $(el).find("button[data-clipboard-text]").attr("data-clipboard-text");
     const winrateText = $(el).find("span.basic-black-text").text();

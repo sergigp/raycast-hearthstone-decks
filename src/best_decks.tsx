@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Icon, List, Image } from "@raycast/api";
+import { Action, ActionPanel, Icon, Image, List } from "@raycast/api";
 import { usePromise } from "@raycast/utils";
 import { getD0nkeyBestDecks } from "./d0nkey";
 import { Deck } from "./types";
@@ -11,10 +11,7 @@ export default function Command() {
       {decks?.map((deck) => (
         <List.Item
           key={deck.code}
-          icon={{
-            source: `${deck.className}.png`,
-            mask: Image.Mask.Circle,
-          }}
+          icon={classIcon(deck)}
           title={deck.title}
           accessories={[winrate(deck), dust(deck)]}
           actions={<Actions {...deck} />}
@@ -37,18 +34,29 @@ function Actions({ title, code }: Deck) {
   );
 }
 
-export function winrate(deck: Deck) {
-  return { icon: Icon.LineChart, text: `${deck.winrate}%`, tooltip: "winrate"};
-}
+const winrate = (deck: Deck) => {
+  return { icon: Icon.LineChart, text: `${deck.winrate}%`, tooltip: "winrate" };
+};
 
-export function dust(deck: Deck) {
+const dust = (deck: Deck) => {
   return { icon: Icon.Raindrop, text: formatNumberWithK(deck.dust), tooltip: "dust" };
-}
+};
 
 const formatNumberWithK = (number: number): string => {
   if (number >= 1000) {
     return `${(number / 1000).toFixed(1).replace(/\.0$/, "")}K`;
   }
-  
+
   return number.toString();
-}
+};
+
+const classIcon = (deck: Deck) => {
+  console.log({
+    source: `${deck.className}.png`,
+    mask: Image.Mask.Circle,
+  });
+  return {
+    source: `${deck.className}.png`,
+    mask: Image.Mask.Circle,
+  };
+};
