@@ -1,13 +1,18 @@
 import { Action, ActionPanel, Icon, List } from "@raycast/api";
-import { CardSlot, Deck } from "./types";
+import { CardSlot, ClassName, Deck } from "./types";
 import { classIcon } from "./utils";
+import { getD0nkeyBestDecks, getD0nkeyBestDecksByClass } from "./d0nkey";
+import { usePromise } from "@raycast/utils";
 
 type DeckListProps = {
-  isLoading: boolean;
-  decks: Deck[];
+  className?: ClassName;
 };
 
-export const DeckList: React.FC<DeckListProps> = ({ isLoading, decks }) => {
+export const DeckList: React.FC<DeckListProps> = ({ className }) => {
+  const { data: decks, isLoading } = className
+    ? usePromise(getD0nkeyBestDecksByClass, [className], {})
+    : usePromise(getD0nkeyBestDecks, [], {});
+
   return (
     <List isLoading={isLoading} isShowingDetail>
       {decks?.map((deck) => (
@@ -28,7 +33,7 @@ function Actions({ title, code }: Deck) {
   return (
     <ActionPanel title={title}>
       <ActionPanel.Section>
-        <Action.CopyToClipboard content={code} title="Copy Deck Code" shortcut={{ modifiers: ["cmd"], key: "." }} />
+        <Action.CopyToClipboard content={code} title="Copy Deck Code" />
       </ActionPanel.Section>
     </ActionPanel>
   );

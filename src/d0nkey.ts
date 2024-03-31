@@ -3,9 +3,20 @@ import * as cheerio from "cheerio";
 import { Card, CardSlot, ClassName, Deck, Rarity } from "./types";
 
 const D0NKEY_BEST_DECKS_URL = "https://www.d0nkey.top/decks/?format=2";
+const d0nkeyBestDecksPerClassUrl = (className: ClassName) => {
+  return `https://www.d0nkey.top/decks/?format=2&player_class=${className}`;
+};
 
 export const getD0nkeyBestDecks = async () => {
-  const response = await axios.get(D0NKEY_BEST_DECKS_URL);
+  return fetchDecks(D0NKEY_BEST_DECKS_URL);
+};
+
+export const getD0nkeyBestDecksByClass = async (className: ClassName) => {
+  return fetchDecks(d0nkeyBestDecksPerClassUrl(className));
+};
+
+export const fetchDecks = async (url: string) => {
+  const response = await axios.get(url);
   const $ = cheerio.load(response.data);
   const elements = $("div.card");
   const decks: Deck[] = [];
