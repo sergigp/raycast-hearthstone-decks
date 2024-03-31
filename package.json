@@ -12,6 +12,12 @@
       "title": "Best Hearthstone decks",
       "description": "List of best best Hearthstone decks",
       "mode": "view"
+    },
+    {
+      "name": "per_class",
+      "title": "Best Hearthstone decks per class",
+      "description": "List of best Hearthstone decks per class",
+      "mode": "view"
     }
   ],
   "dependencies": {
