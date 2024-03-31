@@ -21,11 +21,12 @@ export const getD0nkeyBestDecks = async () => {
       .join(" ");
 
     const code = $(el).find("button[data-clipboard-text]").attr("data-clipboard-text");
-    const winrateText = $(el).find(`span.basic-black-text`).text();
+    const winrateText = $(el).find("span.basic-black-text").text();
+    const dust = parseInt($(el).find("div.dust-bar-inner").text().trim());
     const winrate = winrateText ? parseFloat(winrateText) : null;
 
     if (title && code && className && winrate) {
-      decks.push({ title, code, className, winrate });
+      decks.push({ title, code, className, winrate, dust });
     }
   });
 

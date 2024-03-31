@@ -16,7 +16,7 @@ export default function Command() {
             mask: Image.Mask.Circle,
           }}
           title={deck.title}
-          accessories={[winrate(deck)]}
+          accessories={[winrate(deck), dust(deck)]}
           actions={<Actions {...deck} />}
           detail={
             <List.Item.Detail markdown="![Illustration](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png)" />
@@ -39,4 +39,16 @@ function Actions({ title, code }: Deck) {
 
 export function winrate(deck: Deck) {
   return { icon: Icon.LineChart, text: `${deck.winrate}%`, tooltip: "winrate"};
+}
+
+export function dust(deck: Deck) {
+  return { icon: Icon.Raindrop, text: formatNumberWithK(deck.dust), tooltip: "dust" };
+}
+
+const formatNumberWithK = (number: number): string => {
+  if (number >= 1000) {
+    return `${(number / 1000).toFixed(1).replace(/\.0$/, "")}K`;
+  }
+  
+  return number.toString();
 }

@@ -3,4 +3,5 @@ export type Deck = {
     code: string;
     className: string;
     winrate: number | null;
+    dust: number;
 }
